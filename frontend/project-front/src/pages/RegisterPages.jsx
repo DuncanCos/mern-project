@@ -67,7 +67,7 @@ export default function RegisterPages() {
               type="text"
               placeholder="my super username"
               className="input input-bordered w-full"
-              value={email}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
