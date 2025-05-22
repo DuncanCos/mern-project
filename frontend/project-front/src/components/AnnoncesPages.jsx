@@ -66,7 +66,7 @@ export default function AnnoncesPages() {
     if (filter != "none") {
       console.log(filter)
       setPostDisplayed(posts.filter(post => post.categorie === filter))
-      
+
     } else {
       setPostDisplayed(posts)
     }
@@ -87,6 +87,10 @@ export default function AnnoncesPages() {
     getallannonces()
     filtering()
   }, [refresh, filter])
+
+      useEffect(() => {
+      filtering();
+  }, [posts, filter, refresh]);
 
   if (!verifyToken()) return <div> nope </div>;
 
