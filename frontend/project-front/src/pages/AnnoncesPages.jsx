@@ -63,12 +63,7 @@ export default function AnnoncesPages() {
   ]);
 
   const filtering = () => {
-    if (filter != "none") {
-      console.log(filter);
-      setPostDisplayed(posts.filter((post) => post.categorie === filter));
-    } else {
-      setPostDisplayed(posts);
-    }
+
 
     setPostDisplayed(posts.filter((post) =>
       [post.title, post.categorie, post.author.username]
@@ -76,6 +71,15 @@ export default function AnnoncesPages() {
         .toLowerCase()
         .includes(search.toLowerCase())
     ))
+
+    if (filter != "none") {
+      console.log(filter);
+      setPostDisplayed(posts.filter((post) => post.categorie === filter));
+    } else {
+      setPostDisplayed(posts);
+    }
+
+
 
   };
 
@@ -103,7 +107,7 @@ export default function AnnoncesPages() {
     filtering();
   }, [posts, filter, refresh, search]);
 
- 
+
 
   if (!verifyToken()) return <div> nope </div>;
 
@@ -120,7 +124,7 @@ export default function AnnoncesPages() {
           value={filter}
           onChange={(e) => {
             setFilter(e.target.value);
-            filtering();
+
           }}>
           <option disabled value="">
             Choisissez une catégorie
@@ -144,8 +148,8 @@ export default function AnnoncesPages() {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {postDisplayed.map((post) => (
-            <div
+        {postDisplayed.map((post) => (
+          <div
             key={post._id}
             className="card bg-base-100 shadow-xl hover:scale-105 transition-transform duration-300"
           >
@@ -168,8 +172,8 @@ export default function AnnoncesPages() {
               </div>
             </div>
           </div>
-          ))}
-        </div>
+        ))}
+      </div>
     </>
   );
 }
