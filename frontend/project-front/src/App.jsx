@@ -10,6 +10,7 @@ import LoginPages from './components/LoginPages';
 import RegisterPages from './components/RegisterPages';
 import ObjectPages from './components/ObjectPages';
 import AnnoncesPages from './components/AnnoncesPages';
+import BoardPages from './components/BoardPages';
 
 
 import { useUserContext } from './context/AuthContext';
@@ -36,24 +37,25 @@ function App() {
           <li>
             <Link to="/">Accueil</Link>
           </li>
-          
-          
+
+
 
           {!verifyToken() ?
             (
               <>
-              <li>
-            <Link to="/login">Connexion</Link>
-          </li>
-          <li>
-            <Link to="/subscribe">Inscription</Link>
-          </li>
+                <li>
+                  <Link to="/login">Connexion</Link>
+                </li>
+                <li>
+                  <Link to="/subscribe">Inscription</Link>
+                </li>
               </>
             ) : <>
-            <li>
-            <Link to="/users">Utilisateurs</Link>
-            <Link to="/annonces">Annonces</Link>
-          </li>
+              
+                <li> <Link to="/users">Utilisateurs</Link></li>
+                <li><Link to="/board">Board</Link></li>
+                <li><Link to="/annonces">Annonces</Link></li>
+              
               <div onClick={() => disconnect()}>
                 disconnect
               </div>
@@ -74,6 +76,7 @@ function App() {
         <Route path="/login" element={<LoginPages />}></Route>
         <Route path="/subscribe" element={<RegisterPages />}></Route>
         <Route path="/annonces" element={<AnnoncesPages />}></Route>
+        <Route path="/board" element={<BoardPages />}></Route>
       </Routes>
     </>
   )
