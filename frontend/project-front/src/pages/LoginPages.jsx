@@ -1,32 +1,35 @@
-import React from 'react'
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { useUserContext } from '../context/AuthContext';
+import axios from "axios";
+import { useUserContext } from "../context/AuthContext";
 
 export default function LoginPages() {
-  
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } = useUserContext();
+  const [valid, setValid] = useState(null);
+  const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } =
+    useUserContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
 
-    axios.post("http://127.0.0.1:4000/api/auth/login",{
-      username: username,
-      password:password
-    }).then(resp => {
-      setError("well connected")
-      tokenSetter(resp.data.token);
-    }).catch(erro => {
-      
-      setError(erro.response.data.message)
-    })
-    
+    axios
+      .post("http://127.0.0.1:4000/api/auth/login", {
+        username: username,
+        password: password,
+      })
+      .then((resp) => {
+        setValid("Connecté");
+        tokenSetter(resp.data.token);
+        navigate("/board");
+      })
+      .catch((erro) => {
+        setError(erro.response.data.message);
+      });
   };
 
   return (
@@ -37,6 +40,11 @@ export default function LoginPages() {
         {error && (
           <div className="alert alert-error mb-4 py-2 px-3">
             <span>{error}</span>
+          </div>
+        )}
+        {valid && (
+          <div className="alert alert-success text-white mb-4 py-2 px-3">
+            <span>Vous êtes bien connecté !</span>
           </div>
         )}
 
@@ -75,7 +83,7 @@ export default function LoginPages() {
         </form>
 
         <p className="text-center text-sm mt-4">
-          Pas encore de compte ?{' '}
+          Pas encore de compte ?{" "}
           <a href="/subscribe" className="link link-primary">
             Inscrivez‑vous
           </a>
@@ -83,5 +91,4 @@ export default function LoginPages() {
       </div>
     </div>
   );
-  };
-
+}

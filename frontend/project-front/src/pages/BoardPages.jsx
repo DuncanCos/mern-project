@@ -7,11 +7,19 @@ import axios from "axios";
 import AnnoncesModifModal from "../components/AnnoncesModifModal";
 import AnnoncesDeleteModal from "../components/AnnoncesDeleteModal";
 import AnnoncesCreateModal from "../components/AnnoncesCreateModal";
+import DetailPages from "./DetailPages";
 
 export default function BoardPages() {
-  const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } =
-    useUserContext();
-
+  const {
+    token,
+    tokenSetter,
+    tokenDisconnect,
+    verifyToken,
+    userId,
+    username,
+    isConnected,
+  } = useUserContext();
+  const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [posts, setPosts] = useState([
     {
@@ -155,24 +163,33 @@ export default function BoardPages() {
               <td>{post.title}</td>
               <td>{post.author.username}</td>
               <td>{post.categorie}</td>
-              <td>{post.prix}</td>
+              <td>{post.prix} €</td>
               <td className="flex gap-2">
                 <button
                   className="btn btn-sm btn-primary"
-                  onClick={() => {
-                    setModel(post);
-                    setModalOpen(!modalOpen);
-                  }}>
-                  Modifier
+                  onClick={() => navigate(`/detail/${post._id}`)}>
+                  Voir Plus
                 </button>
-                <button
-                  className="btn btn-sm btn-error"
-                  onClick={() => {
-                    setIdDelete(post._id);
-                    setModalOpenDelete(!modalOpenDelete);
-                  }}>
-                  Supprimer
-                </button>
+                {post.author._id === userId && (
+                  <>
+                    <button
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => {
+                        setModel(post);
+                        setModalOpen(!modalOpen);
+                      }}>
+                      Modifier
+                    </button>
+                    <button
+                      className="btn btn-sm text-white btn-error"
+                      onClick={() => {
+                        setIdDelete(post._id);
+                        setModalOpenDelete(!modalOpenDelete);
+                      }}>
+                      Supprimer
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 export default function RegisterPages() {
   const navigate = useNavigate();
@@ -10,6 +10,7 @@ export default function RegisterPages() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState(null);
+  const [valid, setValid] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,17 +21,21 @@ export default function RegisterPages() {
       return;
     }
 
-    axios.post("http://127.0.0.1:4000/api/auth/register", {
-      username: username,
-      mail: email,
-      password: password
-    }).then(resp => {
-      console.log(resp)
-      setError(resp.data.id)
-    }).catch(erro => {
-      console.log(erro)
-      setError(erro.response.data.message)
-    })
+    axios
+      .post("http://127.0.0.1:4000/api/auth/register", {
+        username: username,
+        mail: email,
+        password: password,
+      })
+      .then((resp) => {
+        console.log(resp);
+        setValid(resp.data.id);
+        navigate("/login");
+      })
+      .catch((erro) => {
+        console.log(erro);
+        setError(erro.response.data.message);
+      });
   };
 
   return (
@@ -41,6 +46,14 @@ export default function RegisterPages() {
         {error && (
           <div className="alert alert-error mb-4 py-2 px-3">
             <span>{error}</span>
+          </div>
+        )}
+
+        {valid && (
+          <div className="alert alert-success mb-4 py-2 px-3">
+            <span>
+              Votre compte a été créé avec succès. Veuillez vous connecter.
+            </span>
           </div>
         )}
 
@@ -67,7 +80,7 @@ export default function RegisterPages() {
               type="text"
               placeholder="my super username"
               className="input input-bordered w-full"
-              value={email}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
@@ -107,7 +120,7 @@ export default function RegisterPages() {
         </form>
 
         <p className="text-center text-sm mt-4">
-          Vous avez déjà un compte ?{' '}
+          Vous avez déjà un compte ?{" "}
           <a href="/login" className="link link-primary">
             Connectez‑vous
           </a>

@@ -13,6 +13,7 @@ import AnnoncesPages from "./pages/AnnoncesPages";
 import BoardPages from "./pages/BoardPages";
 
 import { useUserContext } from "./context/AuthContext";
+import DetailPages from "./pages/DetailPages";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,6 +33,7 @@ function App() {
             MonApp
           </Link>
         </div>
+
         <ul className="menu menu-horizontal gap-4">
           <li>
             <Link to="/">Accueil</Link>
@@ -49,7 +51,6 @@ function App() {
           ) : (
             <>
               <li>
-                {" "}
                 <Link to="/users">Utilisateurs</Link>
               </li>
               <li>
@@ -58,8 +59,13 @@ function App() {
               <li>
                 <Link to="/annonces">Annonces</Link>
               </li>
-
-              <div onClick={() => disconnect()}>disconnect</div>
+              <li>
+                <button
+                  onClick={tokenDisconnect}
+                  className="btn btn-sm btn-error text-white">
+                  Déconnexion
+                </button>
+              </li>
             </>
           )}
         </ul>
@@ -69,6 +75,7 @@ function App() {
         <Route path="/" element={<LoginPages />}></Route>
         <Route path="/users" element={<ObjectPages />}></Route>
         <Route path="/login" element={<LoginPages />}></Route>
+        <Route path="/detail/:id" element={<DetailPages />}></Route>
         <Route path="/subscribe" element={<RegisterPages />}></Route>
         <Route path="/annonces" element={<AnnoncesPages />}></Route>
         <Route path="/board" element={<BoardPages />}></Route>
