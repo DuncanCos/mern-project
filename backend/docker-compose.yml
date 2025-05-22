@@ -1,0 +1,17 @@
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: mydb          # base utilisée par le script d’init
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d # scripts *.js ou *.sh exécutés au démarrage
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
