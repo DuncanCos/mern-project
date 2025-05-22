@@ -141,7 +141,7 @@ export default function BoardPages() {
           <option value="Electromenager">Électroménager</option>
           <option value="Multimedia">Multimédia</option>
           <option value="Sport">Sport & Loisirs</option>
-          <option value="none">rien</option>
+          <option value="Autres">Autres</option>
         </select>
       </div>
 

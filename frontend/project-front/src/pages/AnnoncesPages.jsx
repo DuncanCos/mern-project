@@ -2,13 +2,13 @@ import React from "react";
 import { useUserContext } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
+import axios from "axios";
 
 export default function AnnoncesPages() {
   const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } =
     useUserContext();
-
+  const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [posts, setPosts] = useState([
     {
@@ -63,20 +63,20 @@ export default function AnnoncesPages() {
   ]);
 
   const filtering = () => {
-    if (filter != "none") {
-      console.log(filter);
-      setPostDisplayed(posts.filter((post) => post.categorie === filter));
-    } else {
-      setPostDisplayed(posts);
-    }
+    const filtered = posts.filter((post) => {
+      const matchesCategory =
+        filter === "none" ||
+        post.categorie.toLowerCase() === filter.toLowerCase();
 
-    setPostDisplayed(posts.filter((post) =>
-      [post.title, post.categorie, post.author.username]
+      const matchesSearch = [post.title, post.categorie, post.author.username]
         .join(" ")
         .toLowerCase()
-        .includes(search.toLowerCase())
-    ))
+        .includes(search.toLowerCase());
 
+      return matchesCategory && matchesSearch;
+    });
+
+    setPostDisplayed(filtered);
   };
 
   const getallannonces = () => {
@@ -103,13 +103,10 @@ export default function AnnoncesPages() {
     filtering();
   }, [posts, filter, refresh, search]);
 
- 
-
   if (!verifyToken()) return <div> nope </div>;
 
   return (
     <>
-
       <div className="flex items-center gap-4">
         <label htmlFor="categorie-filter" className="font-semibold">
           Filtrer par catégorie :
@@ -130,10 +127,9 @@ export default function AnnoncesPages() {
           <option value="Electromenager">Électroménager</option>
           <option value="Multimedia">Multimédia</option>
           <option value="Sport">Sport & Loisirs</option>
-          <option value="none">rien</option>
+          <option value="Autres">Autres</option>
         </select>
       </div>
-
 
       <input
         type="text"
@@ -144,11 +140,10 @@ export default function AnnoncesPages() {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {postDisplayed.map((post) => (
-            <div
+        {postDisplayed.map((post) => (
+          <div
             key={post._id}
-            className="card bg-base-100 shadow-xl hover:scale-105 transition-transform duration-300"
-          >
+            className="card bg-base-100 shadow-xl hover:scale-105 transition-transform duration-300">
             <figure>
               <img
                 src={`https://picsum.photos/seed/${post._id}/400/250`}
@@ -164,12 +159,16 @@ export default function AnnoncesPages() {
                 <span className="text-lg font-bold text-primary">
                   {post.prix} €
                 </span>
-                <button className="btn btn-primary btn-sm">Voir</button>
+                <button
+                  className="btn btn-sm btn-primary"
+                  onClick={() => navigate(`/detail/${post._id}`)}>
+                  Voir Plus
+                </button>
               </div>
             </div>
           </div>
-          ))}
-        </div>
+        ))}
+      </div>
     </>
   );
 }
