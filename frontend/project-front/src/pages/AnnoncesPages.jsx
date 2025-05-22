@@ -4,9 +4,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import AnnoncesModifModal from "../components/AnnoncesModifModal";
-import AnnoncesDeleteModal from "../components/AnnoncesDeleteModal";
-import AnnoncesCreateModal from "../components/AnnoncesCreateModal";
 
 export default function AnnoncesPages() {
   const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } =
@@ -44,6 +41,8 @@ export default function AnnoncesPages() {
 
   const [modalCreateOpen, setModalCreateOpen] = useState(false);
 
+  const [search, setSearch] = useState("");
+
   const [modalOpenDelete, setModalOpenDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("!@#");
 
@@ -70,6 +69,14 @@ export default function AnnoncesPages() {
     } else {
       setPostDisplayed(posts);
     }
+
+    setPostDisplayed(posts.filter((post) =>
+      [post.title, post.categorie, post.author.username]
+        .join(" ")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    ))
+
   };
 
   const getallannonces = () => {
@@ -94,20 +101,14 @@ export default function AnnoncesPages() {
 
   useEffect(() => {
     filtering();
-  }, [posts, filter, refresh]);
+  }, [posts, filter, refresh, search]);
+
+ 
 
   if (!verifyToken()) return <div> nope </div>;
 
   return (
     <>
-      <div>annoncesPages</div>
-      <button
-        className="btn btn-primary w-fit m-4"
-        onClick={() => {
-          setModalCreateOpen(!modalCreateOpen);
-        }}>
-        Ajouter une annonce
-      </button>
 
       <div className="flex items-center gap-4">
         <label htmlFor="categorie-filter" className="font-semibold">
@@ -133,64 +134,42 @@ export default function AnnoncesPages() {
         </select>
       </div>
 
-      <table className="table table-zebra w-full">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Titre</th>
-            <th>Auteur</th>
-            <th>Categorie</th>
-            <th>Prix</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
+
+      <input
+        type="text"
+        placeholder="Rechercher un titre, une catégorie ou un auteur..."
+        className="input input-bordered w-full"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {postDisplayed.map((post) => (
-            <tr key={post._id}>
-              <td>{post._id}</td>
-              <td>{post.title}</td>
-              <td>{post.author.username}</td>
-              <td>{post.categorie}</td>
-              <td>{post.prix}</td>
-              <td className="flex gap-2">
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => {
-                    setModel(post);
-                    setModalOpen(!modalOpen);
-                  }}>
-                  Modifier
-                </button>
-                <button
-                  className="btn btn-sm btn-error"
-                  onClick={() => {
-                    setIdDelete(post._id);
-                    setModalOpenDelete(!modalOpenDelete);
-                  }}>
-                  Supprimer
-                </button>
-              </td>
-            </tr>
+            <div
+            key={post._id}
+            className="card bg-base-100 shadow-xl hover:scale-105 transition-transform duration-300"
+          >
+            <figure>
+              <img
+                src={`https://picsum.photos/seed/${post._id}/400/250`}
+                alt={post.title}
+                className="w-full h-48 object-cover"
+              />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">{post.title}</h2>
+              <p className="text-sm text-gray-500">{post.categorie}</p>
+              <p className="text-base line-clamp-2">{post.description}</p>
+              <div className="flex justify-between items-center mt-4">
+                <span className="text-lg font-bold text-primary">
+                  {post.prix} €
+                </span>
+                <button className="btn btn-primary btn-sm">Voir</button>
+              </div>
+            </div>
+          </div>
           ))}
-        </tbody>
-      </table>
-      <AnnoncesModifModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(!modalOpen)}
-        initialData={model}
-        refresher={() => setRefresh(!refresh)}
-      />
-      <AnnoncesDeleteModal
-        isOpen={modalOpenDelete}
-        onClose={() => setModalOpenDelete(!modalOpenDelete)}
-        id={idDelete}
-        refresher={() => setRefresh(!refresh)}
-      />
-      <AnnoncesCreateModal
-        isOpen={modalCreateOpen}
-        onClose={() => setModalCreateOpen(!modalCreateOpen)}
-        refresher={() => setRefresh(!refresh)}
-      />
+        </div>
     </>
   );
 }
