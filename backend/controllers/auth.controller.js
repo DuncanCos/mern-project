@@ -18,9 +18,9 @@ exports.register = async (req, res, next) => {
     if (userExists)
       return res.status(400).json({ message: 'Username ou email déjà utilisé.' });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    //const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({ username, mail, password: hashedPassword });
+    const user = await User.create({ username, mail, password: password });
 
     res.status(201).json({ id: user._id, username: user.username });
   } catch (err) {
@@ -29,8 +29,11 @@ exports.register = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
+  console.log("REQ BODY LOGIN >>>", req.body);
+  
   try {
     const user = await User.findOne({ mail: req.body.mail });
+    console.log(user);
     if (!user || !(await user.comparePassword(req.body.password)))
       return res.status(401).json({ message: 'Bad credentials' });
 

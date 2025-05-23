@@ -65,3 +65,27 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getProductsByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const products = await Product.find({ owner: userId }).populate('owner');
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+  
+exports.getMyProducts = async (req, res) => {
+    try {
+        console.log(req.user);
+
+        const userId = req.user.id;
+
+        const products = await Product.find({ owner: userId }).populate('owner');
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

@@ -9,5 +9,7 @@ router.get('/', auth, productController.getAllProducts);
 router.get('/:id', auth, productController.getProductById);
 router.put('/:id', auth, productController.updateProduct);
 router.delete('/:id', auth, productController.deleteProduct);
+router.get('/user/me', auth, productController.getMyProducts);
+router.get('/user/:userId', auth, productController.getProductsByUserId);
 
-module.exports = router;
+module.exports = router; 
