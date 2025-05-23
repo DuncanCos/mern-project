@@ -6,13 +6,11 @@ export default function AnnoncesDeleteModal({ isOpen, onClose, id , refresher })
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } = useUserContext();
-  useEffect(() => {
 
-  }, []);
 
   const handleSave = () => {
     //faire le call axios
-    axios.delete(`http://127.0.0.1:4000/api/annonces/${id}`,{headers: { Authorization: `Bearer ${token}` },}).then(resp => {
+    axios.delete(`http://127.0.0.1:4000/api/posts/${id}`,{headers: { Authorization: `Bearer ${token}` },}).then(resp => {
       console.log(resp)
   }).catch(err => {
       console.log(err)
