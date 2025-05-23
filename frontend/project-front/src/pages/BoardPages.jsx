@@ -77,7 +77,7 @@ export default function BoardPages() {
 
   const getallannonces = async () => {
     axios
-      .get("http://127.0.0.1:4000/api/annonces/", {
+      .get("http://127.0.0.1:4000/api/posts/", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((resp) => {

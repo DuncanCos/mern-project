@@ -86,7 +86,7 @@ export default function AnnoncesPages() {
   const getallannonces = () => {
     console.log(token);
     axios
-      .get("http://127.0.0.1:4000/api/annonces/", {
+      .get("http://127.0.0.1:4000/api/posts/", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((resp) => {
