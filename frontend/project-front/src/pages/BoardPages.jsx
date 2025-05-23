@@ -68,11 +68,7 @@ export default function BoardPages() {
   const filtering = () => {
     console.log(filter);
 
-    setPostDisplayed(posts.filter((post) =>
-      [post.mame, post.category, post.owner.username]
-        .includes(search.toLowerCase())
-
-    ))
+    
     console.log(posts);
     if (filter != "none") {
       setPostDisplayed(posts.filter((post) => post.category === filter));
@@ -99,7 +95,7 @@ export default function BoardPages() {
   useEffect(() => {
     console.log("refreshing");
     getallannonces();
-    filtering();
+    
   }, [refresh]);
 
   useEffect(() => {

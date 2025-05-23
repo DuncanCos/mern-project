@@ -9,9 +9,7 @@ export default function AnnoncesCreateModal({ isOpen, onClose, refresher }) {
     const [price, setPrice] = useState('');
     const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } = useUserContext();
 
-    useEffect(() => {
-
-    }, []);
+ 
 
     const handleSave = () => {
         // Appel à l'API à ajouter ici
