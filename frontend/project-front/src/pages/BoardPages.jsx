@@ -16,14 +16,14 @@ export default function BoardPages() {
   const [posts, setPosts] = useState([
     {
       _id: "000000",
-      title: "Le vide",
-      categorie: "Sport",
-      author: {
+      name: "Le vide",
+      category: "Sport",
+      owner: {
         _id: "0000001",
         username: "void",
       },
       description: "le vide absolue",
-      prix: 1,
+      price: 1,
       date_ajout: "2025-05-22T07:56:44.796Z",
     },
   ]);
@@ -31,14 +31,14 @@ export default function BoardPages() {
   const [modalOpen, setModalOpen] = useState(false);
   const [model, setModel] = useState({
     _id: "000000",
-    title: "Le vide",
-    categorie: "Sport",
-    author: {
+    name: "Le vide",
+    category: "Sport",
+    owner: {
       _id: "0000001",
       username: "void",
     },
     description: "le vide absolue",
-    prix: 1,
+    price: 1,
     date_ajout: "2025-05-22T07:56:44.796Z",
   });
 
@@ -53,23 +53,29 @@ export default function BoardPages() {
   const [postDisplayed, setPostDisplayed] = useState([
     {
       _id: "000000",
-      title: "Le vide",
-      categorie: "Sport",
-      author: {
+      name: "Le vide",
+      category: "Sport",
+      owner: {
         _id: "0000001",
         username: "void",
       },
       description: "le vide absolue",
-      prix: 1,
+      price: 1,
       date_ajout: "2025-05-22T07:56:44.796Z",
     },
   ]);
 
   const filtering = () => {
     console.log(filter);
+
+    setPostDisplayed(posts.filter((post) =>
+      [post.mame, post.category, post.owner.username]
+        .includes(search.toLowerCase())
+
+    ))
     console.log(posts);
     if (filter != "none") {
-      setPostDisplayed(posts.filter((post) => post.categorie === filter));
+      setPostDisplayed(posts.filter((post) => post.category === filter));
     } else {
       setPostDisplayed(posts);
     }
@@ -77,7 +83,7 @@ export default function BoardPages() {
 
   const getallannonces = async () => {
     axios
-      .get("http://127.0.0.1:4000/api/annonces/", {
+      .get("http://127.0.0.1:4000/api/posts/", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((resp) => {
@@ -143,8 +149,8 @@ export default function BoardPages() {
             <th>ID</th>
             <th>Titre</th>
             <th>Auteur</th>
-            <th>Categorie</th>
-            <th>Prix</th>
+            <th>category</th>
+            <th>price</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -152,10 +158,10 @@ export default function BoardPages() {
           {postDisplayed.map((post) => (
             <tr key={post._id}>
               <td>{post._id}</td>
-              <td>{post.title}</td>
-              <td>{post.author.username}</td>
-              <td>{post.categorie}</td>
-              <td>{post.prix}</td>
+              <td>{post.name}</td>
+              <td>{post.owner.username}</td>
+              <td>{post.category}</td>
+              <td>{post.price}</td>
               <td className="flex gap-2">
                 <button
                   className="btn btn-sm btn-primary"

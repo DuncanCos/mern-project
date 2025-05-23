@@ -16,13 +16,13 @@ export default function AnnoncesCreateModal({ isOpen, onClose, refresher }) {
     const handleSave = () => {
         // Appel à l'API à ajouter ici
         console.log(token)
-        axios.post("http://127.0.0.1:4000/api/annonces/",
+        axios.post("http://127.0.0.1:4000/api/posts/",
             {
 
-                categorie: category,
+                category: category,
                 description: description,
-                title: title,
-                prix: price
+                name: title,
+                price: price
             }, { headers: { Authorization: `Bearer ${token}` }, }).then(resp => {
                 console.log(resp)
             }).catch(err => {
