@@ -63,34 +63,19 @@ export default function AnnoncesPages() {
   ]);
 
   const filtering = () => {
-
-
-    setPostDisplayed(posts.filter((post) =>
-      [post.name, post.category, post.owner.username]
-        .join(" ")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    ))
-
-    if (filter != "none") {
-      console.log(filter);
-      setPostDisplayed(posts.filter((post) => post.category === filter));
-    } else {
-      setPostDisplayed(posts);
-    }
-
-    setPostDisplayed(posts.filter((post) =>()
-      [post.title, post.categorie, post.author.username]
+    const filtered = posts.filter((post) => {
+      const matchesSearch = [post.name, post.category, post.owner.username]
         .join(" ")
         .toLowerCase()
         .includes(search.toLowerCase());
+
+      const matchesCategory = filter === "none" || post.category === filter;
 
       return matchesCategory && matchesSearch;
     });
 
     setPostDisplayed(filtered);
   };
-
   const getallannonces = () => {
     console.log(token);
     axios
@@ -153,8 +138,6 @@ export default function AnnoncesPages() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {postDisplayed.map((post) => (
           <div
-        {postDisplayed.map((post) => (
-          <div
             key={post._id}
             className="card bg-base-100 shadow-xl hover:scale-105 transition-transform duration-300">
             <figure>
@@ -180,8 +163,6 @@ export default function AnnoncesPages() {
               </div>
             </div>
           </div>
-        ))}
-      </div>
         ))}
       </div>
     </>

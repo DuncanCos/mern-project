@@ -112,7 +112,6 @@ export default function BoardPages() {
   if (loading) return <p>Chargement...</p>;
   return (
     <>
-      <div>annoncesPages</div>
       <button
         className="btn btn-primary w-fit m-4"
         onClick={() => {
@@ -151,9 +150,9 @@ export default function BoardPages() {
             <th>ID</th>
             <th>Titre</th>
             <th>Auteur</th>
-            <th>category</th>
-            <th>price</th>
-            <th>Action</th>
+            <th>Categorie</th>
+            <th>Prix</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -163,33 +162,26 @@ export default function BoardPages() {
               <td>{post.name}</td>
               <td>{post.owner.username}</td>
               <td>{post.category}</td>
-              <td>{post.price}</td>
+              <td>{post.price} €</td>
               <td className="flex gap-2">
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => navigate(`/detail/${post._id}`)}>
-                  Voir Plus
-                </button>
-                {post.author._id === userId && (
-                  <>
-                    <button
-                      className="btn btn-sm btn-secondary"
-                      onClick={() => {
-                        setModel(post);
-                        setModalOpen(!modalOpen);
-                      }}>
-                      Modifier
-                    </button>
-                    <button
-                      className="btn btn-sm text-white btn-error"
-                      onClick={() => {
-                        setIdDelete(post._id);
-                        setModalOpenDelete(!modalOpenDelete);
-                      }}>
-                      Supprimer
-                    </button>
-                  </>
-                )}
+                <>
+                  <button
+                    className="btn btn-sm btn-secondary"
+                    onClick={() => {
+                      setModel(post);
+                      setModalOpen(!modalOpen);
+                    }}>
+                    Modifier
+                  </button>
+                  <button
+                    className="btn btn-sm text-white btn-error"
+                    onClick={() => {
+                      setIdDelete(post._id);
+                      setModalOpenDelete(!modalOpenDelete);
+                    }}>
+                    Supprimer
+                  </button>
+                </>
               </td>
             </tr>
           ))}

@@ -14,6 +14,7 @@ import BoardPages from "./pages/BoardPages";
 
 import { useUserContext } from "./context/AuthContext";
 import DetailPages from "./pages/DetailPages";
+import AccueilPages from "./pages/AccueilPages";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,7 +31,7 @@ function App() {
       <nav className="navbar bg-base-100 shadow-md px-4">
         <div className="flex-1">
           <Link to="/" className="text-xl font-bold">
-            MonApp
+            MERN PROJECT
           </Link>
         </div>
 
@@ -51,9 +52,6 @@ function App() {
           ) : (
             <>
               <li>
-                <Link to="/users">Utilisateurs</Link>
-              </li>
-              <li>
                 <Link to="/board">Board</Link>
               </li>
               <li>
@@ -72,7 +70,7 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<LoginPages />}></Route>
+        <Route path="/" element={<AccueilPages />}></Route>
         <Route path="/users" element={<ObjectPages />}></Route>
         <Route path="/login" element={<LoginPages />}></Route>
         <Route path="/detail/:id" element={<DetailPages />}></Route>

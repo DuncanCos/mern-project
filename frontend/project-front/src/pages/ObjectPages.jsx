@@ -43,15 +43,13 @@ export default function ObjectPages() {
   if (!verifyToken()) return <div> nope </div>;
   return (
     <div>
-      <div>ObjectPages</div>
-
       <table className="table table-zebra w-full">
         <thead>
           <tr>
             <th>ID</th>
             <th>Titre</th>
             <th>Contenu</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>

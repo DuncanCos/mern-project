@@ -23,8 +23,8 @@ export default function LoginPages() {
         password: password,
       })
       .then((resp) => {
-        setError("well connected");
         tokenSetter(resp.data.token);
+        navigate("/annonces");
       })
       .catch((erro) => {
         setError(erro.response.data.message);
@@ -50,11 +50,11 @@ export default function LoginPages() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Mail</span>
+              <span className="label-text">Email</span>
             </label>
             <input
               type="email"
-              placeholder="my mail"
+              placeholder="Entrez votre email"
               className="input input-bordered w-full"
               value={mail}
               onChange={(e) => setMail(e.target.value)}
@@ -68,7 +68,7 @@ export default function LoginPages() {
             </label>
             <input
               type="password"
-              placeholder="••••••••"
+              placeholder="Entreez votre mot de passe"
               className="input input-bordered w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

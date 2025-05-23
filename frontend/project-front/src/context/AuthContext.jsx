@@ -53,7 +53,7 @@ export function UserProvider({ children }) {
     setToken(null);
     setUserInfo(null);
     setIsConnected(false);
-    navigate("/sign-in");
+    navigate("/login");
   };
 
   const data = {
