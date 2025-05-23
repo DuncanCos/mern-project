@@ -63,12 +63,15 @@ export default function AnnoncesPages() {
   ]);
 
   const filtering = () => {
-    const filtered = posts.filter((post) => {
-      const matchesCategory =
-        filter === "none" ||
-        post.categorie.toLowerCase() === filter.toLowerCase();
+    if (filter != "none") {
+      console.log(filter);
+      setPostDisplayed(posts.filter((post) => post.categorie === filter));
+    } else {
+      setPostDisplayed(posts);
+    }
 
-      const matchesSearch = [post.title, post.categorie, post.author.username]
+    setPostDisplayed(posts.filter((post) =>
+      [post.title, post.categorie, post.author.username]
         .join(" ")
         .toLowerCase()
         .includes(search.toLowerCase());
@@ -117,7 +120,6 @@ export default function AnnoncesPages() {
           value={filter}
           onChange={(e) => {
             setFilter(e.target.value);
-            filtering();
           }}>
           <option disabled value="">
             Choisissez une catégorie
@@ -140,6 +142,8 @@ export default function AnnoncesPages() {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {postDisplayed.map((post) => (
+          <div
         {postDisplayed.map((post) => (
           <div
             key={post._id}
@@ -167,6 +171,8 @@ export default function AnnoncesPages() {
               </div>
             </div>
           </div>
+        ))}
+      </div>
         ))}
       </div>
     </>

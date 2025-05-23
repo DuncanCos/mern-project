@@ -6,7 +6,7 @@ import { useUserContext } from "../context/AuthContext";
 
 export default function LoginPages() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [valid, setValid] = useState(null);
@@ -19,13 +19,12 @@ export default function LoginPages() {
 
     axios
       .post("http://127.0.0.1:4000/api/auth/login", {
-        username: username,
+        mail: mail,
         password: password,
       })
       .then((resp) => {
-        setValid("Connecté");
+        setError("well connected");
         tokenSetter(resp.data.token);
-        navigate("/board");
       })
       .catch((erro) => {
         setError(erro.response.data.message);
@@ -51,14 +50,14 @@ export default function LoginPages() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Username</span>
+              <span className="label-text">Mail</span>
             </label>
             <input
-              type="text"
-              placeholder="my username"
+              type="email"
+              placeholder="my mail"
               className="input input-bordered w-full"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={mail}
+              onChange={(e) => setMail(e.target.value)}
               required
             />
           </div>
