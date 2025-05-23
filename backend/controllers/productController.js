@@ -23,7 +23,7 @@ exports.createProduct = async (req, res) => {
 // Récupérer tous les produits
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find().populate('owner');
+        const products = await Product.find().populate('owner', 'username');
         res.status(200).json(products);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -33,7 +33,7 @@ exports.getAllProducts = async (req, res) => {
 // Récupérer un seul produit
 exports.getProductById = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id).populate('owner');
+        const product = await Product.findById(req.params.id).populate('owner', 'username');
         if (!product) return res.status(404).json({ error: 'Produit introuvable.' });
         res.status(200).json(product);
     } catch (err) {
@@ -70,7 +70,7 @@ exports.getProductsByUserId = async (req, res) => {
     try {
         const userId = req.params.userId;
 
-        const products = await Product.find({ owner: userId }).populate('owner');
+        const products = await Product.find({ owner: userId }).populate('owner', 'username');
         res.status(200).json(products);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -83,7 +83,7 @@ exports.getMyProducts = async (req, res) => {
 
         const userId = req.user.id;
 
-        const products = await Product.find({ owner: userId }).populate('owner');
+        const products = await Product.find({ owner: userId }).populate('owner', 'username');
         res.status(200).json(products);
     } catch (err) {
         res.status(500).json({ error: err.message });

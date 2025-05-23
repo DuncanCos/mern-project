@@ -14,22 +14,22 @@ export default function AnnoncesModifModal({ isOpen, onClose, initialData, refre
     useEffect(() => {
         if (initialData) {
             console.log(initialData._id)
-            setTitle(initialData.title || '');
-            setCategory(initialData.categorie || '');
-            setAuthor(initialData.author?.username || '');
+            setTitle(initialData.name || '');
+            setCategory(initialData.category || '');
+            setAuthor(initialData.owner?.username || '');
             setDescription(initialData.description || '');
-            setPrice(initialData.prix || '');
-            setDate_ajout(initialData.date_ajout || '');
+            setPrice(initialData.price || '');
+            setDate_ajout(initialData.createdAt || '');
         }
     }, [initialData]);
 
     const handleSave = () => {
         // Appel à l'API à ajouter ici
-        axios.put(`http://127.0.0.1:4000/api/annonces/${initialData._id}`,{
-            title: title,
-            categorie: category,
+        axios.put(`http://127.0.0.1:4000/api/posts/${initialData._id}`,{
+            name: title,
+            category: category,
             description: description,
-            prix : price
+            price : price
         },{headers: { Authorization: `Bearer ${token}` },}).then(resp => {
             console.log(resp)
         }).catch(err => {
