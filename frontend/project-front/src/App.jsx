@@ -13,6 +13,8 @@ import AnnoncesPages from "./pages/AnnoncesPages";
 import BoardPages from "./pages/BoardPages";
 
 import { useUserContext } from "./context/AuthContext";
+import DetailPages from "./pages/DetailPages";
+import AccueilPages from "./pages/AccueilPages";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,9 +31,10 @@ function App() {
       <nav className="navbar bg-base-100 shadow-md px-4">
         <div className="flex-1">
           <Link to="/" className="text-xl font-bold">
-            MonApp
+            MERN PROJECT
           </Link>
         </div>
+
         <ul className="menu menu-horizontal gap-4">
           <li>
             <Link to="/">Accueil</Link>
@@ -49,26 +52,28 @@ function App() {
           ) : (
             <>
               <li>
-                {" "}
-                <Link to="/users">Utilisateurs</Link>
-              </li>
-              <li>
                 <Link to="/board">Board</Link>
               </li>
               <li>
                 <Link to="/annonces">Annonces</Link>
               </li>
-
-              <div onClick={() => disconnect()}>disconnect</div>
+              <li>
+                <button
+                  onClick={tokenDisconnect}
+                  className="btn btn-sm btn-error text-white">
+                  Déconnexion
+                </button>
+              </li>
             </>
           )}
         </ul>
       </nav>
 
       <Routes>
-        <Route path="/" element={<LoginPages />}></Route>
+        <Route path="/" element={<AccueilPages />}></Route>
         <Route path="/users" element={<ObjectPages />}></Route>
         <Route path="/login" element={<LoginPages />}></Route>
+        <Route path="/detail/:id" element={<DetailPages />}></Route>
         <Route path="/subscribe" element={<RegisterPages />}></Route>
         <Route path="/annonces" element={<AnnoncesPages />}></Route>
         <Route path="/board" element={<BoardPages />}></Route>

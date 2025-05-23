@@ -7,11 +7,19 @@ import axios from "axios";
 import AnnoncesModifModal from "../components/AnnoncesModifModal";
 import AnnoncesDeleteModal from "../components/AnnoncesDeleteModal";
 import AnnoncesCreateModal from "../components/AnnoncesCreateModal";
+import DetailPages from "./DetailPages";
 
 export default function BoardPages() {
-  const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } =
-    useUserContext();
-
+  const {
+    token,
+    tokenSetter,
+    tokenDisconnect,
+    verifyToken,
+    userId,
+    username,
+    isConnected,
+  } = useUserContext();
+  const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [posts, setPosts] = useState([
     {
@@ -68,7 +76,6 @@ export default function BoardPages() {
   const filtering = () => {
     console.log(filter);
 
-    
     console.log(posts);
     if (filter != "none") {
       setPostDisplayed(posts.filter((post) => post.category === filter));
@@ -95,7 +102,6 @@ export default function BoardPages() {
   useEffect(() => {
     console.log("refreshing");
     getallannonces();
-    
   }, [refresh]);
 
   useEffect(() => {
@@ -106,7 +112,6 @@ export default function BoardPages() {
   if (loading) return <p>Chargement...</p>;
   return (
     <>
-      <div>annoncesPages</div>
       <button
         className="btn btn-primary w-fit m-4"
         onClick={() => {
@@ -135,7 +140,7 @@ export default function BoardPages() {
           <option value="Electromenager">Électroménager</option>
           <option value="Multimedia">Multimédia</option>
           <option value="Sport">Sport & Loisirs</option>
-          <option value="none">rien</option>
+          <option value="Autres">Autres</option>
         </select>
       </div>
 
@@ -145,9 +150,9 @@ export default function BoardPages() {
             <th>ID</th>
             <th>Titre</th>
             <th>Auteur</th>
-            <th>category</th>
-            <th>price</th>
-            <th>Action</th>
+            <th>Categorie</th>
+            <th>Prix</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -157,24 +162,26 @@ export default function BoardPages() {
               <td>{post.name}</td>
               <td>{post.owner.username}</td>
               <td>{post.category}</td>
-              <td>{post.price}</td>
+              <td>{post.price} €</td>
               <td className="flex gap-2">
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => {
-                    setModel(post);
-                    setModalOpen(!modalOpen);
-                  }}>
-                  Modifier
-                </button>
-                <button
-                  className="btn btn-sm btn-error"
-                  onClick={() => {
-                    setIdDelete(post._id);
-                    setModalOpenDelete(!modalOpenDelete);
-                  }}>
-                  Supprimer
-                </button>
+                <>
+                  <button
+                    className="btn btn-sm btn-secondary"
+                    onClick={() => {
+                      setModel(post);
+                      setModalOpen(!modalOpen);
+                    }}>
+                    Modifier
+                  </button>
+                  <button
+                    className="btn btn-sm text-white btn-error"
+                    onClick={() => {
+                      setIdDelete(post._id);
+                      setModalOpenDelete(!modalOpenDelete);
+                    }}>
+                    Supprimer
+                  </button>
+                </>
               </td>
             </tr>
           ))}
