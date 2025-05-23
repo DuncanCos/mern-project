@@ -86,7 +86,7 @@ export default function BoardPages() {
 
   const getallannonces = async () => {
     axios
-      .get("http://127.0.0.1:4000/api/posts/", {
+      .get("http://127.0.0.1:4000/api/posts/user/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((resp) => {
@@ -140,7 +140,7 @@ export default function BoardPages() {
           <option value="Electromenager">Électroménager</option>
           <option value="Multimedia">Multimédia</option>
           <option value="Sport">Sport & Loisirs</option>
-          <option value="Autres">Autres</option>
+          <option value="none">Autres</option>
         </select>
       </div>
 

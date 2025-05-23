@@ -32,10 +32,11 @@ export default function AnnoncesModifModal({ isOpen, onClose, initialData, refre
             price : price
         },{headers: { Authorization: `Bearer ${token}` },}).then(resp => {
             console.log(resp)
+            refresher()
         }).catch(err => {
             console.log(err)
         })
-        refresher()
+        
 
         onClose();
     };

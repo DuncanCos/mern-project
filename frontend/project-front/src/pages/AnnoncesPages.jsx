@@ -123,7 +123,7 @@ export default function AnnoncesPages() {
           <option value="Electromenager">Électroménager</option>
           <option value="Multimedia">Multimédia</option>
           <option value="Sport">Sport & Loisirs</option>
-          <option value="Autres">Autres</option>
+          <option value="none">Autres</option>
         </select>
       </div>
 

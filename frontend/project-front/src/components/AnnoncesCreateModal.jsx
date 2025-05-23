@@ -22,11 +22,12 @@ export default function AnnoncesCreateModal({ isOpen, onClose, refresher }) {
                 name: title,
                 price: price
             }, { headers: { Authorization: `Bearer ${token}` }, }).then(resp => {
+                refresher()
                 console.log(resp)
             }).catch(err => {
                 console.log(err)
             })
-        refresher()
+       
         onClose();
     };
 

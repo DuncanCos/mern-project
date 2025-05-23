@@ -12,10 +12,11 @@ export default function AnnoncesDeleteModal({ isOpen, onClose, id , refresher })
     //faire le call axios
     axios.delete(`http://127.0.0.1:4000/api/posts/${id}`,{headers: { Authorization: `Bearer ${token}` },}).then(resp => {
       console.log(resp)
+      refresher()
   }).catch(err => {
       console.log(err)
   })
-  refresher()
+  
     onClose();
   };
 
