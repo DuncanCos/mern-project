@@ -6,9 +6,7 @@ export default function AnnoncesDeleteModal({ isOpen, onClose, id , refresher })
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const { token, tokenSetter, tokenDisconnect, verifyToken, isConnected } = useUserContext();
-  useEffect(() => {
 
-  }, []);
 
   const handleSave = () => {
     //faire le call axios
