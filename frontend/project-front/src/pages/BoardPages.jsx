@@ -78,19 +78,18 @@ export default function BoardPages() {
   };
 
   const getallannonces = async () => {
-    axios
-      .get("http://127.0.0.1:4000/api/posts/", {
+    try {
+      setLoading(true); // Ajoutez ceci si vous voulez montrer un loading
+      const resp = await axios.get("http://127.0.0.1:4000/api/posts/", {
         headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((resp) => {
-        setPosts(resp.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
       });
+      console.log(resp.data)
+      setPosts(resp.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     console.log("refreshing");
